@@ -1,6 +1,6 @@
 ﻿namespace Interpreter
 {
-    public class Scanner
+    internal class Scanner
     {
         private readonly Dictionary<string, TokenType> _keywords;
         private readonly List<Token> _tokens = new List<Token>();
@@ -84,7 +84,7 @@
                 start = current;
                 ScanToken();
             }
-            
+
             _tokens.Add(new Token(TokenType.EOF, "", null, line));
 
             return _tokens;
@@ -133,30 +133,30 @@
         private void Identifier()
         {
             while (char.IsLetterOrDigit(Peek) || Peek == '_') Advance();
-            
+
             string text = _source.Substring(start, current - start);
 
             TokenType type;
-            
+
             if (!_keywords.TryGetValue(text, out type))
             {
                 type = TokenType.IDENTIFIER;
             }
-            
+
             AddToken(type);
         }
 
         private void Number()
         {
             while (char.IsDigit(Peek)) Advance();
-            
+
             if (Peek == '.' && char.IsDigit(PeekNext))
             {
                 Advance(); // Consume the '.'
-                
+
                 while (char.IsDigit(Peek)) Advance();
             }
-            
+
             string value = _source.Substring(start, current - start);
 
             AddToken(TokenType.NUMBER, double.Parse(value));
@@ -169,7 +169,7 @@
                 if (isAtEnd) throw new Exception("Unterminated string.");
 
                 char c = Advance();
-                
+
                 if (c == '"') break;
                 if (c == '\n') line++;
             }
@@ -191,7 +191,7 @@
         private bool Match(char c)
         {
             if (isAtEnd || _source[current] != c) return false;
-            
+
             current++;
 
             return true;
@@ -215,7 +215,7 @@
             char c = _source[current];
 
             current++;
-            
+
             return c;
         }
     }

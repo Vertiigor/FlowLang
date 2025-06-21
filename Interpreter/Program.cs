@@ -1,5 +1,4 @@
-﻿using Interpreter.Grammar;
-using Interpreter.Grammar.Expressions;
+﻿using Interpreter.Grammar.Expressions;
 using System.Text;
 
 namespace Interpreter
@@ -102,7 +101,7 @@ namespace Interpreter
                 {
                     return;
                 }
-                
+
                 Execute(input);
             }
         }

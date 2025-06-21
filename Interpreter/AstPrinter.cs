@@ -1,10 +1,8 @@
-﻿using Interpreter.Grammar;
-using Interpreter.Grammar.Expressions;
-using System.Linq.Expressions;
+﻿using Interpreter.Grammar.Expressions;
 
 namespace Interpreter
 {
-    public class AstPrinter
+    internal class AstPrinter
     {
         public static string Print(Interpreter.Grammar.Expression expr) => expr switch
         {
@@ -12,7 +10,7 @@ namespace Interpreter
                 Parenthesize(op, left, right),
 
             Grouping(var inner) =>
-                Parenthesize(new Token(TokenType.GROUP, "group", "group", 0), inner),
+                Parenthesize(new Token(TokenType.GROUP, "group", string.Empty, 0), inner),
 
             Literal(var value) =>
                 value?.ToString() ?? "nil",

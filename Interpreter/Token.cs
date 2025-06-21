@@ -1,6 +1,6 @@
 ﻿namespace Interpreter
 {
-    public enum TokenType
+    internal enum TokenType
     {
         // Single-character tokens
         LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
@@ -30,7 +30,7 @@
         EOF
     }
 
-    public class Token
+    internal class Token
     {
         public TokenType Type { get; }
         public string Lexeme { get; }

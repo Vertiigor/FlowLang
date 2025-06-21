@@ -1,4 +1,4 @@
 ﻿namespace Interpreter.Grammar
 {
-    public abstract record Expression;
+    internal abstract record Expression;
 }
