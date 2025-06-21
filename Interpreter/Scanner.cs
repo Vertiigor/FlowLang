@@ -1,6 +1,6 @@
 ﻿namespace Interpreter
 {
-    internal class Scanner
+    public class Scanner
     {
         private readonly Dictionary<string, TokenType> _keywords;
         private readonly List<Token> _tokens = new List<Token>();

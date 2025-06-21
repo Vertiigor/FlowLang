@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Interpreter.Grammar;
+using Interpreter.Grammar.Expressions;
+using System.Text;
 
 namespace Interpreter
 {
@@ -6,6 +8,17 @@ namespace Interpreter
     {
         static void Main(string[] args)
         {
+            // Example usage of the AstPrinter
+            var expression = new Binary(
+                new Unary(
+                new Token(TokenType.MINUS, "-", null, 1),
+                new Literal(123)),
+            new Token(TokenType.STAR, "*", null, 1),
+            new Grouping(
+                new Literal(45.67)));
+
+            Console.WriteLine(AstPrinter.Print(expression));
+
             if (args.Length == 0)
             {
                 RunPromt();

@@ -24,11 +24,13 @@
         IMPLEMENTS, WITH, BASE, ARRAY, THIS, FOREACH, IN,
         RETURN, DO, STEP, PROCEDURE, BREAK, CONTINUE,
 
+        GROUP,
+
         // End of file
         EOF
     }
 
-    internal class Token
+    public class Token
     {
         public TokenType Type { get; }
         public string Lexeme { get; }
