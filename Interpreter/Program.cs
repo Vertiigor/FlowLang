@@ -1,4 +1,5 @@
-﻿using Interpreter.Grammar.Expressions;
+﻿using Interpreter.Grammar;
+using Interpreter.Grammar.Expressions;
 using System.Text;
 
 namespace Interpreter
@@ -10,8 +11,8 @@ namespace Interpreter
             // Example usage of the AstPrinter
             var expression = new Binary(
                 new Unary(
-                new Token(TokenType.MINUS, "-", null, 1),
-                new Literal(123)),
+                    new Token(TokenType.MINUS, "-", null, 1),
+                    new Literal(123)),
             new Token(TokenType.STAR, "*", null, 1),
             new Grouping(
                 new Literal(45.67)));
@@ -61,16 +62,29 @@ namespace Interpreter
 
             List<Token> tokens = scanner.ScanTokens();
 
-            // For now, just print the tokens.
-            foreach (var token in tokens)
+            Parser parser = new Parser(tokens);
+
+            Expression expression = parser.Parse();
+
+            Console.WriteLine("Parsed expression: " + AstPrinter.Print(expression));
+
+            if (expression == null)
             {
-                Console.WriteLine(token);
+                Console.WriteLine("Parsing failed.");
+                return;
             }
         }
 
-        private static void Error(int line, string message)
+        public static void Error(Token token, string message)
         {
-            report(line, "", message);
+            if (token.Type == TokenType.EOF)
+            {
+                report(token.Line, " at end", message);
+            }
+            else
+            {
+                report(token.Line, " at '" + token.Lexeme + "'", message);
+            }
         }
 
         private static void report(int line, string where, string message)
