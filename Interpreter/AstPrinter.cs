@@ -1,10 +1,11 @@
-﻿using Interpreter.Grammar.Expressions;
+﻿using Interpreter.Grammar;
+using Interpreter.Grammar.Expressions;
 
 namespace Interpreter
 {
     internal class AstPrinter
     {
-        public static string Print(Interpreter.Grammar.Expression expr) => expr switch
+        public static string Print(Expression expr) => expr switch
         {
             Binary(var left, var op, var right) =>
                 Parenthesize(op, left, right),
@@ -21,7 +22,7 @@ namespace Interpreter
             _ => throw new Exception("Unknown expression")
         };
 
-        private static string Parenthesize(Token name, params Interpreter.Grammar.Expression[] exprs)
+        private static string Parenthesize(Token name, params Expression[] exprs)
         {
             var parts = exprs.Select(Print);
 

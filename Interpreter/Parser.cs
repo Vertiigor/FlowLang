@@ -34,7 +34,49 @@ namespace Interpreter
 
         private Expression Expression()
         {
-            return Equaluty();
+            return Not();
+        }
+
+        private Expression Not()
+        {
+            Expression expr = And();
+
+            while (Match(TokenType.NOT))
+            {
+                Token operatorToken = Previous;
+                Expression right = And();
+                expr = new Unary(operatorToken, right);
+            }
+
+            return expr;
+        }
+
+        private Expression Or()
+        {
+            Expression expr = Equaluty();
+
+            while (Match(TokenType.OR))
+            {
+                Token operatorToken = Previous;
+                Expression right = Equaluty();
+                expr = new Binary(expr, operatorToken, right);
+            }
+
+            return expr;
+        }
+
+        private Expression And()
+        {
+            Expression expr = Or();
+
+            while (Match(TokenType.AND))
+            {
+                Token operatorToken = Previous;
+                Expression right = Or();
+                expr = new Binary(expr, operatorToken, right);
+            }
+
+            return expr;
         }
 
         private Expression Equaluty()
@@ -82,7 +124,7 @@ namespace Interpreter
         {
             Expression expr = Unary();
 
-            while (Match(TokenType.SLASH, TokenType.STAR))
+            while (Match(TokenType.SLASH, TokenType.STAR, TokenType.REMAINDER))
             {
                 Token operatorToken = Previous;
                 Expression right = Unary();
@@ -94,7 +136,7 @@ namespace Interpreter
 
         private Expression Unary()
         {
-            if (Match(TokenType.BANG, TokenType.MINUS))
+            if (Match(TokenType.BANG, TokenType.MINUS, TokenType.NOT))
             {
                 Token operatorToken = Previous;
                 Expression right = Unary();

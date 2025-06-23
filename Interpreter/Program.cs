@@ -8,17 +8,6 @@ namespace Interpreter
     {
         static void Main(string[] args)
         {
-            // Example usage of the AstPrinter
-            var expression = new Binary(
-                new Unary(
-                    new Token(TokenType.MINUS, "-", null, 1),
-                    new Literal(123)),
-            new Token(TokenType.STAR, "*", null, 1),
-            new Grouping(
-                new Literal(45.67)));
-
-            Console.WriteLine(AstPrinter.Print(expression));
-
             if (args.Length == 0)
             {
                 RunPromt();
@@ -62,11 +51,19 @@ namespace Interpreter
 
             List<Token> tokens = scanner.ScanTokens();
 
+            foreach (var token in tokens)
+            {
+                Console.WriteLine(token);
+            }
+
             Parser parser = new Parser(tokens);
 
             Expression expression = parser.Parse();
 
             Console.WriteLine("Parsed expression: " + AstPrinter.Print(expression));
+            Console.WriteLine("Evaluating expression...");
+            var result = Interpreter.Evaluate(expression);
+            Console.WriteLine("Result: " + result);
 
             if (expression == null)
             {
